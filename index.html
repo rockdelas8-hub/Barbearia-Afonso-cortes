@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <meta id="publicMetaDescription" name="description" content="Agende seu horário na Barbearia Afonso Cortes.">
+  <title id="publicDocumentTitle">Barbearia Afonso Cortes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#111;--card:#1d1d1d;--gold:#c99a35;--gold-light:#f0cf7b;--text:#fff;--muted:#b6b6b6;--danger:#d9534f;--green:#25d366}
+    body{font-family:'Figtree',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}
+    .container{width:min(100% - 32px,1000px);margin:auto}
+    header{padding:17px 0;border-bottom:1px solid #333;background:#151515}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .header-brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .photo-placeholder{width:76px;height:60px;flex:0 0 76px;border:1px dashed var(--gold);border-radius:9px;background:#201d17;color:var(--gold-light);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:10px;line-height:1.2;gap:3px;overflow:hidden}
+    .photo-placeholder .camera{font-size:20px;line-height:1}
+    .photo-placeholder img{width:100%;height:100%;object-fit:cover;display:none}
+    .logo{color:var(--gold-light);font-size:19px;font-weight:800;line-height:1.2}
+    .logo small{display:block;color:white;font-size:11px;letter-spacing:3px;margin-top:4px}
+    .nav-actions{display:flex;gap:8px;align-items:center}
+    .nav-link{border:1px solid var(--gold);border-radius:8px;padding:8px 11px;font-size:13px;font-weight:700;white-space:nowrap;background:transparent;color:var(--gold-light);cursor:pointer}
+    /* Oculta os atalhos Cliente e Agendar do cabeçalho sem afetar as funções internas. */
+    #clientOpenBtn,#bookingNavLink{display:none!important}
+    .hero{padding:65px 0 55px;text-align:center;background:radial-gradient(ellipse at top,#493719 0%,#1b1915 38%,#111 75%)}
+    .eyebrow{color:var(--gold-light);text-transform:uppercase;font-size:12px;font-weight:700;letter-spacing:3px;margin-bottom:15px}
+    h1{font-size:clamp(34px,8vw,58px);line-height:1.08;font-weight:800;margin-bottom:18px}
+    h1 span{color:var(--gold-light)}.hero p{color:var(--muted);max-width:470px;margin:0 auto 25px;font-size:15px}
+    .button{display:inline-flex;justify-content:center;align-items:center;gap:8px;min-height:46px;padding:11px 18px;background:var(--gold);color:#17120a;border:0;border-radius:9px;font-weight:800;cursor:pointer}
+    .button:hover{opacity:.9}.button-outline{background:transparent;color:var(--gold-light);border:1px solid var(--gold)}
+    .button-danger{background:var(--danger);color:#fff}.button-small{min-height:36px;padding:7px 10px;font-size:13px}
+    section{padding:45px 0}.section-title{text-align:center;margin-bottom:25px}.section-title h2{font-size:28px;margin-bottom:5px}.section-title p{color:var(--muted);font-size:14px}
+    .gold-line{height:3px;width:48px;background:var(--gold);margin:12px auto 0;border-radius:5px}
+    .services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .service,.panel-card{background:var(--card);padding:19px 15px;border:1px solid #343434;border-radius:13px}
+    .service-icon{font-size:27px;margin-bottom:9px}.service h3{font-size:16px;margin-bottom:5px}
+    .service p{font-size:12px;color:var(--muted);margin-bottom:12px}.price{color:var(--gold-light);font-size:20px;font-weight:800}
+    .booking,.admin-section{background:#1a1a1a}.booking-form,.admin-box{max-width:650px;margin:auto;background:var(--card);padding:22px;border-radius:14px;border:1px solid #343434}
+    .field{margin-bottom:15px}label{display:block;margin-bottom:6px;font-size:14px;font-weight:600}
+    input,select,textarea{width:100%;min-height:46px;padding:11px;border:1px solid #444;border-radius:8px;background:#111;color:#fff;font-size:16px}
+    textarea{resize:vertical;min-height:80px}input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+    .booking-form>.button,.admin-box>.button{width:100%}.note{color:var(--muted);font-size:12px;margin-top:12px;text-align:center}
+    .contact{text-align:center}.contact p{color:var(--muted);margin:8px 0 20px}
+    footer{padding:24px 16px;border-top:1px solid #333;text-align:center;color:var(--muted);font-size:12px}
+    .whatsapp-float{position:fixed;bottom:18px;right:16px;z-index:10;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;font-size:25px;box-shadow:0 4px 18px #0008}
+    .hidden{display:none!important}.admin-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+    .admin-heading h2{font-size:23px}.admin-tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:18px;padding-bottom:4px}
+    .tab-btn{flex:0 0 auto;background:#111;color:#eee;border:1px solid #444;border-radius:8px;padding:9px 12px;cursor:pointer}
+    .tab-btn.active{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700}
+    .admin-list{display:grid;gap:12px}.admin-item{background:#141414;border:1px solid #383838;border-radius:10px;padding:14px}
+    .admin-item-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .admin-item p{font-size:13px;color:var(--muted);margin:4px 0}.admin-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+    .status{display:inline-block;border-radius:20px;padding:3px 9px;font-size:11px;font-weight:700}
+    .status-pendente{background:#55431d;color:#ffdc83}.status-confirmado{background:#173d2b;color:#8ce6b0}.status-cancelado{background:#4a2222;color:#ffaaaa}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:18px}
+    .stat{background:#111;border:1px solid #333;border-radius:10px;padding:12px;text-align:center}
+    .stat strong{display:block;color:var(--gold-light);font-size:23px}.stat span{font-size:11px;color:var(--muted)}
+    .inline-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .message{font-size:13px;margin:10px 0;color:var(--gold-light)}.empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed #444;border-radius:10px}
+    .danger-text{color:#ffaaaa;font-size:12px;margin-top:10px}
+    @media(min-width:700px){.hero{padding:100px 0 85px}section{padding:65px 0}.services{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.service{padding:25px}.booking-form,.admin-box{padding:30px}}
+
+    .barber-status{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:700}
+    .barber-active{background:#183d2b;color:#9ff0bd}
+    .barber-dismissed{background:#482020;color:#ffb4b4}
+    @media(max-width:390px){.photo-placeholder{width:60px;height:52px;flex-basis:60px;font-size:9px}.header-brand{gap:8px}.logo{font-size:15px}.logo small{letter-spacing:2px}.nav-link{font-size:11px;padding:8px}.services{grid-template-columns:1fr}.stats{gap:5px}.stat{padding:9px 4px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <div class="header-brand">
+      <div class="photo-placeholder" id="barbershopPhotoPlaceholder" aria-label="Espaço reservado para foto da barbearia"><span class="camera">📷</span><span>FOTO DA<br>BARBEARIA</span><img id="barbershopHeaderPhoto" alt="Foto da barbearia"></div>
+      <a href="#" class="logo"><span id="publicBrandName">AFONSO CORTES</span><small id="publicBrandSubtitle">BARBEARIA</small></a>
+    </div>
+    <div class="nav-actions">
+      <button type="button" class="nav-link" id="clientOpenBtn"><span id="publicNavClient">Cliente</span></button>
+      <a href="#agendamento" class="nav-link" id="bookingNavLink"><span id="publicNavBooking">Agendar</span></a>
+      <button type="button" class="nav-link" id="adminOpenBtn"><span id="publicNavAdmin">Administrador</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="publicSite">
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow" id="publicHeroEyebrow">Estilo • Precisão • Qualidade</div>
+      <h1><span id="publicHeroTitleMain" style="color:inherit">Seu estilo,</span><br><span id="publicHeroTitleAccent">nosso trabalho.</span></h1>
+      <p id="publicHeroDescription">Bem-vindo à Barbearia Afonso Cortes. Seu visual merece cuidado, personalidade e excelência.</p>
+      <a href="#agendamento" class="button" id="publicHeroButton">✂ Agendar meu horário</a>
+    </div>
+  </section>
+
+  <section id="servicos">
+    <div class="container">
+      <div class="section-title"><h2 id="publicServicesTitle">Nossos serviços</h2><p id="publicServicesDescription">Escolha o serviço ideal para você.</p><div class="gold-line"></div></div>
+      <div class="services" id="publicServices"></div>
+      <p class="note" id="publicServicesNote">Os valores e serviços podem ser atualizados pela administração.</p>
+    </div>
+  </section>
+
+  <section class="booking" id="agendamento">
+    <div class="container">
+      <div class="section-title"><h2 id="publicBookingTitle">Agende seu horário</h2><p id="publicBookingDescription">Preencha os dados para solicitar seu agendamento.</p><div class="gold-line"></div></div>
+      <form class="booking-form" id="bookingForm">
+        <div class="field"><label id="publicNameLabel" for="nome">Seu nome</label><input id="nome" name="nome" type="text" placeholder="Digite seu nome" autocomplete="name" required></div>
+        <div class="field"><label id="publicPhoneLabel" for="telefone">Seu telefone</label><input id="telefone" name="telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required></div>
+        <div class="field"><label id="publicServiceLabel" for="servico">1º — Qual corte ou serviço você deseja?</label><select id="servico" name="servico" required><option value="">Selecione um serviço</option></select></div>
+        <div class="inline-fields">
+          <div class="field"><label id="publicDateLabel" for="data">Data desejada</label><input id="data" name="data" type="date" required></div>
+          <div class="field"><label id="publicTimeLabel" for="hora">2º — Horário desejado</label><select id="hora" name="hora" required><option value="">Selecione</option></select></div>
+        </div>
+        <div class="field"><label id="publicBarberLabel" for="barbeiroEscolhido">3º — Qual barbeiro deseja que atenda você?</label><select id="barbeiroEscolhido" name="barbeiroEscolhido" required><option value="">Selecione um barbeiro</option></select></div>
+        <div class="field"><label id="publicObservationLabel" for="observacao">Observações (opcional)</label><textarea id="observacao" name="observacao" placeholder="Alguma preferência?"></textarea></div>
+        <button type="submit" class="button" id="publicBookingSubmit">Solicitar agendamento</button>
+        <p class="note" id="publicBookingNote">Os horários e períodos ocupados por outros agendamentos não aparecem como disponíveis. A solicitação fica pendente até a confirmação da barbearia.</p>
+        <p class="message" id="bookingMessage" role="status"></p>
+        <div class="admin-box hidden" id="bookingSuccessBox" style="margin-top:16px">
+          <h3 id="publicSuccessTitle" style="margin-bottom:8px">Agendamento solicitado!</h3>
+          <p id="publicSuccessDescription" style="margin-bottom:14px">Agora você pode enviar uma mensagem ao barbeiro pelo WhatsApp para pedir a confirmação do seu horário.</p>
+          <button type="button" class="button" id="requestWhatsAppConfirmation"><span id="publicWhatsAppButton">Pedir confirmação pelo WhatsApp</span></button>
+          <p class="note" id="publicSuccessNote" style="margin-top:10px">A solicitação só estará confirmada quando a barbearia responder.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="contact" id="contato"><div class="container"><div class="section-title"><h2 id="publicContactTitle">Venha nos visitar</h2><div class="gold-line"></div></div><p id="publicContactDescription">Entre em contato para tirar dúvidas e confirmar seu horário.</p><a href="#agendamento" class="button button-outline" id="publicContactButton">Fazer agendamento</a></div></section>
+</main>
+
+<section class="admin-section hidden" id="adminSection">
+  <div class="container">
+    <div class="admin-heading"><button type="button" class="button button-outline button-small" id="backToClientBtn">Voltar ao painel do cliente</button></div>
+    <div class="section-title"><h2>Área do administrador</h2><p>Gerencie solicitações, serviços e horários.</p><div class="gold-line"></div></div>
+    <div class="admin-box" id="loginBox">
+      <h3 style="margin-bottom:14px">Entrar na administração</h3>
+      <form id="loginForm">
+        <div class="field"><label for="loginEmail">E-mail do barbeiro (opcional)</label><input id="loginEmail" type="email" autocomplete="username" placeholder="E-mail autorizado pelo administrador"></div>
+        <div class="field"><label for="adminPassword">Senha</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Senha de administrador ou do barbeiro"></div>
+        <button class="button" type="submit">Entrar</button>
+        <p class="message" id="loginMessage" role="status"></p>
+        <p class="danger-text">Demonstração local: os acessos são guardados neste navegador e não constituem autenticação segura para um site publicado. Para uso real, configure autenticação e permissões no servidor.</p>
+      </form>
+    </div>
+
+    <div class="admin-box hidden" id="dashboard">
+      <div class="admin-heading"><h2>Painel administrativo</h2><button type="button" class="button button-outline button-small" id="logoutBtn">Sair</button></div>
+      <div class="stats">
+        <div class="stat"><strong id="statPending">0</strong><span>Pendentes</span></div>
+        <div class="stat"><strong id="statConfirmed">0</strong><span>Confirmados</span></div>
+        <div class="stat"><strong id="statServices">0</strong><span>Serviços</span></div>
+      </div>
+      <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="appointments">Agendamentos</button>
+        <button class="tab-btn" data-tab="services">Serviços e preços</button>
+        <button class="tab-btn" data-tab="hours">Horários</button>
+        <button class="tab-btn" data-tab="barbers">Equipe / Barbeiros</button>
+        <button class="tab-btn" data-tab="settings">Dados da barbearia</button>
+        <button class="tab-btn" data-tab="whatsapp-message">Mensagem WhatsApp</button>
+      </div>
+
+      <div id="tab-appointments">
+        <div class="field"><label for="filterStatus">Filtrar agendamentos</label><select id="filterStatus"><option value="todos">Todos</option><option value="Pendente">Pendentes</option><option value="Confirmado">Confirmados</option><option value="Cancelado">Cancelados</option></select></div>
+        <div class="admin-box hidden" id="editAppointmentBox" style="margin:14px 0">
+          <h3 style="margin-bottom:12px">Editar agendamento</h3>
+          <form id="editAppointmentForm">
+            <input type="hidden" id="editAppointmentId">
+            <div class="field"><label for="editAppointmentName">Nome do cliente</label><input id="editAppointmentName" required maxlength="100"></div>
+            <div class="field"><label for="editAppointmentPhone">Telefone</label><input id="editAppointmentPhone" type="tel" required maxlength="25"></div>
+            <div class="field"><label for="editAppointmentService">Serviço</label><select id="editAppointmentService" required></select></div>
+            <div class="inline-fields">
+              <div class="field"><label for="editAppointmentDate">Data</label><input id="editAppointmentDate" type="date" required></div>
+              <div class="field"><label for="editAppointmentTime">Horário</label><input id="editAppointmentTime" type="time" required></div>
+            </div>
+            <div class="field"><label for="editAppointmentStatus">Status</label><select id="editAppointmentStatus"><option value="Pendente">Pendente</option><option value="Confirmado">Confirmado</option><option value="Cancelado">Cancelado</option></select></div>
+            <div class="field"><label for="editAppointmentNote">Observações</label><textarea id="editAppointmentNote" rows="3" maxlength="500"></textarea></div>
+            <button class="button" type="submit">Salvar alterações</button>
+            <button class="button button-outline" type="button" id="cancelEditAppointment">Cancelar edição</button>
+            <p class="message" id="editAppointmentMessage" role="status"></p>
+          </form>
+        </div>
+        <div class="admin-list" id="appointmentsList"></div>
+      </div>
+
+      <div id="tab-services" class="hidden">
+        <h3 id="serviceFormTitle" style="margin-bottom:12px">Adicionar serviço</h3>
+        <form id="serviceForm">
+          <input type="hidden" id="serviceId">
+          <div class="field"><label for="serviceName">Nome do serviço</label><input id="serviceName" required maxlength="70" placeholder="Ex.: Corte masculino"></div>
+          <div class="inline-fields">
+            <div class="field"><label for="servicePrice">Preço (R$)</label><input id="servicePrice" type="number" min="0" step="0.01" required placeholder="35.00"></div>
+            <div class="field"><label for="serviceDuration">Duração (minutos)</label><input id="serviceDuration" type="number" min="5" max="480" step="5" required value="30" placeholder="30"></div>
+          </div>
+          <div class="field"><label for="serviceIcon">Ícone/emoji</label><input id="serviceIcon" maxlength="8" placeholder="✂️"></div>
+          <div class="field"><label for="serviceDescription">Descrição</label><input id="serviceDescription" maxlength="120" placeholder="Descrição curta"></div>
+          <button class="button" type="submit">Salvar serviço</button>
+          <button class="button button-outline hidden" type="button" id="cancelEditService">Cancelar edição</button>
+          <p class="message" id="serviceMessage" role="status"></p>
+        </form>
+        <hr style="border:0;border-top:1px solid #444;margin:20px 0">
+        <div class="admin-list" id="adminServicesList"></div>
+      </div>
+
+
+      <div id="tab-barbers" class="hidden">
+        <h3 id="barberFormTitle" style="margin-bottom:12px">Contratar barbeiro</h3>
+        <p class="note">Cadastre os dados do profissional para organizar a equipe da barbearia.</p>
+        <form id="barberForm">
+          <input type="hidden" id="barberId" value="">
+          <div class="field"><label for="barberName">Nome completo</label><input id="barberName" required maxlength="100" placeholder="Nome do barbeiro"></div>
+          <div class="inline-fields">
+            <div class="field"><label for="barberPhone">Telefone</label><input id="barberPhone" type="tel" maxlength="25" placeholder="(00) 00000-0000"></div>
+            <div class="field"><label for="barberEmail">E-mail</label><input id="barberEmail" type="email" maxlength="150" autocomplete="email" placeholder="nome@exemplo.com"></div>
+          </div>
+          <div class="field"><label for="barberSpecialty">Especialidade</label><input id="barberSpecialty" maxlength="80" placeholder="Ex.: Corte e barba"></div>
+          <div class="field" style="border:1px solid #444;border-radius:10px;padding:12px">
+            <label style="display:flex;align-items:center;gap:9px"><input id="barberAdminAccess" type="checkbox" style="width:auto;min-height:auto"> Autorizar este barbeiro a entrar no painel administrativo</label>
+            <p class="note" style="text-align:left">O e-mail acima será usado no login. Defina uma senha exclusiva para este profissional.</p>
+            <label for="barberAccessPassword">Senha de acesso do barbeiro</label><input id="barberAccessPassword" type="password" minlength="6" maxlength="100" autocomplete="new-password" placeholder="Mínimo de 6 caracteres">
+          </div>
+          <button class="button" type="submit" id="saveBarberButton">Cadastrar barbeiro</button>
+          <button class="button button-outline hidden" type="button" id="cancelEditBarber">Cancelar edição</button>
+          <p class="message" id="barberMessage" role="status"></p>
+        </form>
+        <hr style="border:0;border-top:1px solid #444;margin:20px 0">
+        <h3 style="margin-bottom:12px">Equipe cadastrada</h3>
+        <div class="admin-list" id="barbersList"></div>
+      </div>
+      <div id="tab-settings" class="hidden">
+        <h3 style="margin-bottom:12px">Dados da barbearia</h3>
+        <p class="note" style="text-align:left;margin:0 0 16px">Cadastre os dados que serão usados nos contatos com clientes. Informe o WhatsApp com código do país e DDD, somente números (ex.: 5511999999999).</p>
+        <div class="panel-card" style="margin-bottom:20px">
+          <h4 style="margin-bottom:8px">Foto do perfil no cabeçalho</h4>
+          <p class="note" style="text-align:left;margin:0 0 12px">Escolha uma imagem para aparecer ao lado do nome da barbearia no cabeçalho.</p>
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px">
+            <div id="barbershopPhotoPreviewBox" style="width:112px;height:84px;border:1px dashed var(--gold);border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#111;color:var(--gold-light);text-align:center;font-size:12px"><span id="barbershopPhotoPreviewEmpty">Prévia da foto</span><img id="barbershopPhotoPreview" alt="Prévia da foto do cabeçalho" style="width:100%;height:100%;object-fit:cover;display:none"></div>
+            <div style="flex:1;min-width:180px"><label for="barbershopPhotoInput">Selecionar foto</label><input id="barbershopPhotoInput" type="file" accept="image/*" style="padding:8px;font-size:14px"><p class="note" style="text-align:left">Use JPG, PNG ou outra imagem. A imagem será ajustada para caber no cabeçalho.</p></div>
+          </div>
+          <button class="button button-small" type="button" id="saveBarbershopPhoto">Salvar foto do cabeçalho</button>
+          <button class="button button-outline button-small" type="button" id="removeBarbershopPhoto">Remover foto</button>
+          <p class="message" id="barbershopPhotoMessage" role="status"></p>
+        </div>
+        <form id="businessSettingsForm">
+          <div class="field"><label for="businessWhatsApp">WhatsApp da barbearia</label><input id="businessWhatsApp" type="tel" inputmode="numeric" maxlength="20" placeholder="Ex.: 5511999999999" required></div>
+          <div class="field"><label for="businessAddress">Endereço da barbearia</label><textarea id="businessAddress" rows="3" maxlength="300" placeholder="Rua, número, bairro, cidade e ponto de referência" required></textarea></div>
+          <button class="button" type="submit">Salvar dados da barbearia</button>
+          <p class="message" id="businessSettingsMessage" role="status"></p>
+          <p class="note">Os dados ficam salvos neste navegador. Para aparecerem em outros dispositivos, será necessário conectar um banco de dados compartilhado.</p>
+        </form>
+        <hr style="border:0;border-top:1px solid #444;margin:24px 0">
+        <h3 style="margin-bottom:8px">Personalizar todos os textos da tela do cliente</h3>
+        <p class="note" style="text-align:left;margin:0 0 16px">Edite os nomes, títulos, botões, instruções, cabeçalho e rodapé que aparecem na página pública. Deixe o campo em branco para ocultar o texto.</p>
+        <form id="publicTextsForm">
+          <div class="field"><label for="textBrandName">Nome no cabeçalho</label><input id="textBrandName" maxlength="80" required></div>
+          <div class="field"><label for="textBrandSubtitle">Subtítulo do cabeçalho</label><input id="textBrandSubtitle" maxlength="80"></div>
+          <div class="inline-fields"><div class="field"><label for="textNavClient">Botão Cliente</label><input id="textNavClient" maxlength="40"></div><div class="field"><label for="textNavBooking">Botão Agendar</label><input id="textNavBooking" maxlength="40"></div></div>
+          <div class="field"><label for="textNavAdmin">Botão Administrador</label><input id="textNavAdmin" maxlength="40"></div>
+          <div class="field"><label for="textHeroEyebrow">Frase pequena acima do título</label><input id="textHeroEyebrow" maxlength="120"></div>
+          <div class="inline-fields"><div class="field"><label for="textHeroTitleMain">Título principal (linha 1)</label><input id="textHeroTitleMain" maxlength="100"></div><div class="field"><label for="textHeroTitleAccent">Título principal (linha 2)</label><input id="textHeroTitleAccent" maxlength="100"></div></div>
+          <div class="field"><label for="textHeroDescription">Descrição inicial</label><textarea id="textHeroDescription" rows="3" maxlength="500"></textarea></div>
+          <div class="field"><label for="textHeroButton">Botão principal de agendamento</label><input id="textHeroButton" maxlength="100"></div>
+          <div class="inline-fields"><div class="field"><label for="textNamePlaceholder">Exemplo no campo nome</label><input id="textNamePlaceholder" maxlength="100"></div><div class="field"><label for="textPhonePlaceholder">Exemplo no campo telefone</label><input id="textPhonePlaceholder" maxlength="100"></div></div>
+          <div class="inline-fields"><div class="field"><label for="textServiceSelectPlaceholder">Opção inicial de serviço</label><input id="textServiceSelectPlaceholder" maxlength="100"></div><div class="field"><label for="textTimeSelectPlaceholder">Opção inicial de horário</label><input id="textTimeSelectPlaceholder" maxlength="100"></div></div>
+          <div class="inline-fields"><div class="field"><label for="textBarberSelectPlaceholder">Opção inicial de barbeiro</label><input id="textBarberSelectPlaceholder" maxlength="100"></div>
+          <div class="inline-fields"><div class="field"><label for="textNoServiceSelected">Aviso antes de escolher serviço</label><input id="textNoServiceSelected" maxlength="120"></div><div class="field"><label for="textNoTimeAvailable">Aviso sem horários disponíveis</label><input id="textNoTimeAvailable" maxlength="120"></div></div><div class="field"><label for="textNoBarberPlaceholder">Texto sem barbeiros disponíveis</label><input id="textNoBarberPlaceholder" maxlength="120"></div></div>
+          <div class="field"><label for="textBookingSubmit">Botão de enviar agendamento</label><input id="textBookingSubmit" maxlength="100"></div>
+          <div class="field"><label for="textBookingNote">Aviso abaixo do formulário</label><textarea id="textBookingNote" rows="3" maxlength="500"></textarea></div>
+          <div class="field"><label for="textSuccessTitle">Título após solicitar agendamento</label><input id="textSuccessTitle" maxlength="100"></div>
+          <div class="field"><label for="textSuccessDescription">Mensagem após solicitar agendamento</label><textarea id="textSuccessDescription" rows="3" maxlength="300"></textarea></div>
+          <div class="inline-fields"><div class="field"><label for="textWhatsAppButton">Botão de confirmação no WhatsApp</label><input id="textWhatsAppButton" maxlength="100"></div><div class="field"><label for="textSuccessNote">Aviso de confirmação</label><input id="textSuccessNote" maxlength="200"></div></div>
+          <div class="field"><label for="textContactTitle">Título da seção de contato</label><input id="textContactTitle" maxlength="100"></div>
+          <div class="field"><label for="textContactDescription">Descrição da seção de contato</label><textarea id="textContactDescription" rows="2" maxlength="250"></textarea></div>
+          <div class="field"><label for="textContactButton">Botão da seção de contato</label><input id="textContactButton" maxlength="100"></div>
+          <div class="field"><label for="textServicesTitle">Título da seção de serviços</label><input id="textServicesTitle" maxlength="100"></div>
+          <div class="field"><label for="textServicesDescription">Descrição da seção de serviços</label><input id="textServicesDescription" maxlength="250"></div>
+          <div class="field"><label for="textServicesNote">Aviso abaixo dos serviços</label><textarea id="textServicesNote" rows="2" maxlength="300"></textarea></div>
+          <div class="field"><label for="textBookingTitle">Título da seção de agendamento</label><input id="textBookingTitle" maxlength="100"></div>
+          <div class="field"><label for="textBookingDescription">Descrição do agendamento</label><textarea id="textBookingDescription" rows="2" maxlength="300"></textarea></div>
+          <div class="inline-fields"><div class="field"><label for="textNameLabel">Rótulo do nome do cliente</label><input id="textNameLabel" maxlength="80"></div><div class="field"><label for="textPhoneLabel">Rótulo do telefone</label><input id="textPhoneLabel" maxlength="80"></div></div>
+          <div class="field"><label for="textServiceLabel">Instrução para escolher serviço</label><input id="textServiceLabel" maxlength="120"></div>
+          <div class="inline-fields"><div class="field"><label for="textDateLabel">Rótulo da data</label><input id="textDateLabel" maxlength="80"></div><div class="field"><label for="textTimeLabel">Rótulo do horário</label><input id="textTimeLabel" maxlength="100"></div></div>
+          <div class="field"><label for="textBarberLabel">Instrução para escolher barbeiro</label><input id="textBarberLabel" maxlength="120"></div>
+          <div class="inline-fields"><div class="field"><label for="textObservationLabel">Rótulo das observações</label><input id="textObservationLabel" maxlength="80"></div><div class="field"><label for="textObservationPlaceholder">Exemplo dentro das observações</label><input id="textObservationPlaceholder" maxlength="120"></div></div>
+          <div class="field"><label for="textFooterName">Nome no rodapé</label><input id="textFooterName" maxlength="100"></div>
+          <div class="field"><label for="textFooterRights">Texto final do rodapé</label><input id="textFooterRights" maxlength="150"></div>
+          <div class="field"><label for="textDocumentTitle">Nome da página (aba do navegador)</label><input id="textDocumentTitle" maxlength="100"></div>
+          <div class="field"><label for="textMetaDescription">Descrição da página</label><textarea id="textMetaDescription" rows="2" maxlength="250"></textarea></div>
+          <button class="button" type="submit">Salvar textos da tela do cliente</button>
+          <button class="button button-outline" type="button" id="resetPublicTexts">Restaurar textos padrão</button>
+          <p class="message" id="publicTextsMessage" role="status"></p>
+          <p class="note">Os textos são salvos neste navegador. Para aparecerem em outros dispositivos, é necessário conectar um banco de dados compartilhado.</p>
+        </form>
+      </div>
+      <div id="tab-whatsapp-message" class="hidden">
+        <h3 style="margin-bottom:12px">Mensagem pronta do WhatsApp</h3>
+        <p class="note" style="text-align:left;margin:0 0 16px">Edite o texto que será preenchido automaticamente quando o cliente pedir a confirmação pelo WhatsApp. Campos disponíveis: {nome}, {telefone}, {servico}, {preco}, {data}, {hora}, {barbeiro} e {observacoes}.</p>
+        <form id="whatsappMessageForm">
+          <div class="field"><label for="whatsappMessageTemplate">Texto da mensagem</label><textarea id="whatsappMessageTemplate" rows="12" maxlength="4000" required></textarea></div>
+          <button class="button" type="submit">Salvar mensagem</button>
+          <button class="button button-outline" type="button" id="resetWhatsAppMessage">Restaurar mensagem padrão</button>
+          <p class="message" id="whatsappMessageSettingsMessage" role="status"></p>
+          <p class="note">A mensagem é salva neste navegador. O WhatsApp abrirá com o texto preenchido; o envio final deve ser feito pelo usuário.</p>
+        </form>
+        <hr style="border:0;border-top:1px solid #444;margin:24px 0">
+        <h3 style="margin-bottom:12px">Mensagem enviada pelo administrador</h3>
+        <p class="note" style="text-align:left;margin:0 0 16px">Edite a mensagem que o administrador abre para enviar diretamente ao cliente na lista de agendamentos. Campos disponíveis: {nome}, {telefone}, {servico}, {preco}, {data}, {hora}, {barbeiro} e {observacoes}.</p>
+        <form id="adminWhatsAppMessageForm">
+          <div class="field"><label for="adminWhatsAppMessageTemplate">Texto da mensagem para o cliente</label><textarea id="adminWhatsAppMessageTemplate" rows="10" maxlength="4000" required></textarea></div>
+          <button class="button" type="submit">Salvar mensagem do administrador</button>
+          <button class="button button-outline" type="button" id="resetAdminWhatsAppMessage">Restaurar mensagem padrão</button>
+          <p class="message" id="adminWhatsAppMessageSettingsMessage" role="status"></p>
+          <p class="note">Ao clicar em WhatsApp em um agendamento, esta mensagem será preenchida para o cliente. O administrador ainda precisa tocar em enviar no WhatsApp.</p>
+        </form>
+      </div>
+      <div id="tab-hours" class="hidden">
+        <h3 style="margin-bottom:12px">Configurar horários disponíveis</h3>
+        <form id="hoursForm">
+          <div class="field"><label for="openingTime">Horário de abertura</label><input id="openingTime" type="time" required></div>
+          <div class="field"><label for="closingTime">Horário de fechamento</label><input id="closingTime" type="time" required></div>
+          <div class="field"><label for="slotMinutes">Intervalo entre horários (minutos)</label><select id="slotMinutes"><option value="15">15 minutos</option><option value="30">30 minutos</option><option value="45">45 minutos</option><option value="60">60 minutos</option></select></div>
+          <button class="button" type="submit">Salvar horários</button>
+          <p class="message" id="hoursMessage" role="status"></p>
+          <p class="note">Esta configuração cria opções no formulário, mas não substitui uma agenda central com bloqueio de conflitos.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© <span id="year"></span> <span id="publicFooterName">Barbearia Afonso Cortes</span>. <span id="publicFooterRights">Todos os direitos reservados.</span><div id="publicBusinessAddress" style="margin-top:6px"></div></footer>
+<a class="whatsapp-float" id="whatsappLink" href="#agendamento" aria-label="Ir para agendamento">✂</a>
+
+<script>
+(() => {
+  /*
+    DEMONSTRAÇÃO LOCAL:
+    - Troque o número abaixo pelo WhatsApp da barbearia.
+    - Troque a senha abaixo apenas para testes locais.
+    - Para produção, implemente autenticação e banco de dados no servidor.
+    localStorage pode ser alterado pelo visitante e não é seguro para dados reais.
+  */
+  const DEMO_ADMIN_PASSWORD = "Afonso123!";
+  const STORAGE_KEYS = {
+    services: "afonso_cortes_services_v1",
+    appointments: "afonso_cortes_appointments_v1",
+    hours: "afonso_cortes_hours_v1",
+    barbers: "afonso_cortes_barbers_v1",
+    businessSettings: "afonso_cortes_business_settings_v1",
+    publicTexts: "afonso_cortes_public_texts_v1",
+    barbershopPhoto: "afonso_cortes_header_photo_v1",
+    whatsappMessage: "afonso_cortes_whatsapp_message_v1",
+    adminWhatsAppMessage: "afonso_cortes_admin_whatsapp_message_v1"
+  };
+
+  const defaultServices = [
+    {id: makeId(), name:"Corte masculino", price:35, icon:"✂️", description:"Corte personalizado para seu estilo."},
+    {id: makeId(), name:"Barba", price:20, icon:"🧔", description:"Acabamento e cuidado com a barba."},
+    {id: makeId(), name:"Corte + barba", price:50, icon:"💈", description:"Visual completo em um atendimento."},
+    {id: makeId(), name:"Degradê", price:40, icon:"⚡", description:"Acabamento moderno e detalhado."}
+  ];
+
+  function makeId() {
+    return (Date.now().toString(36) + Math.random().toString(36).slice(2,8));
+  }
+  function load(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch (_) { return fallback; }
+  }
+  function save(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (_) { alert("Não foi possível salvar os dados neste navegador."); }
+  }
+  let services = load(STORAGE_KEYS.services, defaultServices);
+  let appointments = load(STORAGE_KEYS.appointments, []);
+  let hours = load(STORAGE_KEYS.hours, {open:"08:00", close:"18:00", interval:60});
+  let barbers = load(STORAGE_KEYS.barbers, []);
+  let businessSettings = load(STORAGE_KEYS.businessSettings, {whatsapp:"", address:""});
+  let barbershopPhoto = load(STORAGE_KEYS.barbershopPhoto, "");
+  let pendingBarbershopPhoto = "";
+  function displayBarbershopPhoto(photo) {
+    const headerImg = $("barbershopHeaderPhoto");
+    const placeholder = $("barbershopPhotoPlaceholder");
+    const preview = $("barbershopPhotoPreview");
+    const previewEmpty = $("barbershopPhotoPreviewEmpty");
+    if (photo) {
+      headerImg.src = photo; headerImg.style.display = "block";
+      placeholder.querySelectorAll(".camera, span").forEach(el => el.style.display = "none");
+      preview.src = photo; preview.style.display = "block"; previewEmpty.style.display = "none";
+    } else {
+      headerImg.removeAttribute("src"); headerImg.style.display = "none";
+      placeholder.querySelectorAll(".camera, span").forEach(el => el.style.display = "");
+      preview.removeAttribute("src"); preview.style.display = "none"; previewEmpty.style.display = "";
+    }
+  }
+  const defaultPublicTexts = {brandName:"AFONSO CORTES",brandSubtitle:"BARBEARIA",navClient:"Cliente",navBooking:"Agendar",navAdmin:"Administrador",heroEyebrow:"Estilo • Precisão • Qualidade",heroTitleMain:"Seu estilo,",heroTitleAccent:"nosso trabalho.",heroDescription:"Bem-vindo à Barbearia Afonso Cortes. Seu visual merece cuidado, personalidade e excelência.",heroButton:"✂ Agendar meu horário",namePlaceholder:"Digite seu nome",phonePlaceholder:"(00) 00000-0000",serviceSelectPlaceholder:"Selecione um serviço",timeSelectPlaceholder:"Selecione um horário disponível",noServiceSelected:"Selecione primeiro um serviço",noTimeAvailable:"Nenhum horário disponível nessa data",barberSelectPlaceholder:"Selecione um barbeiro",noBarberPlaceholder:"Nenhum barbeiro disponível no momento",bookingSubmit:"Solicitar agendamento",bookingNote:"Os horários e períodos ocupados por outros agendamentos não aparecem como disponíveis. A solicitação fica pendente até a confirmação da barbearia.",successTitle:"Agendamento solicitado!",successDescription:"Agora você pode enviar uma mensagem ao barbeiro pelo WhatsApp para pedir a confirmação do seu horário.",whatsAppButton:"Pedir confirmação pelo WhatsApp",successNote:"A solicitação só estará confirmada quando a barbearia responder.",contactTitle:"Venha nos visitar",contactDescription:"Entre em contato para tirar dúvidas e confirmar seu horário.",contactButton:"Fazer agendamento",servicesTitle:"Nossos serviços",servicesDescription:"Escolha o serviço ideal para você.",servicesNote:"Os valores e serviços podem ser atualizados pela administração.",bookingTitle:"Agende seu horário",bookingDescription:"Preencha os dados para solicitar seu agendamento.",nameLabel:"Seu nome",phoneLabel:"Seu telefone",serviceLabel:"1º — Qual corte ou serviço você deseja?",dateLabel:"Data desejada",timeLabel:"2º — Horário desejado",barberLabel:"3º — Qual barbeiro deseja que atenda você?",observationLabel:"Observações (opcional)",observationPlaceholder:"Alguma preferência?",footerName:"Barbearia Afonso Cortes",footerRights:"Todos os direitos reservados.",documentTitle:"Barbearia Afonso Cortes",metaDescription:"Agende seu horário na Barbearia Afonso Cortes."};
+  let publicTexts = {...defaultPublicTexts, ...load(STORAGE_KEYS.publicTexts, {})};
+  const DEFAULT_WHATSAPP_MESSAGE = "Olá! Acabei de solicitar um agendamento na Barbearia Afonso Cortes e gostaria de pedir a confirmação do meu horário.\n\nNome: {nome}\nTelefone: {telefone}\nServiço: {servico} — {preco}\nData desejada: {data}\nHorário desejado: {hora}\nBarbeiro desejado: {barbeiro}\nObservações: {observacoes}\n\nPor favor, podem confirmar se esse horário está disponível?";
+  let whatsappMessageTemplate = load(STORAGE_KEYS.whatsappMessage, DEFAULT_WHATSAPP_MESSAGE);
+  const DEFAULT_ADMIN_WHATSAPP_MESSAGE = "Olá, {nome}! 💈\n\nAqui é da Barbearia Afonso Cortes. Seu agendamento está confirmado!\n\nServiço: {servico} — {preco}\nData: {data}\nHorário: {hora}\nBarbeiro: {barbeiro}\n\nQualquer dúvida, estamos à disposição. Até lá!";
+  let adminWhatsAppMessageTemplate = load(STORAGE_KEYS.adminWhatsAppMessage, DEFAULT_ADMIN_WHATSAPP_MESSAGE);
+  let adminLoggedIn = false;
+
+  const $ = id => document.getElementById(id);
+  // Renderiza a foto somente depois de inicializar o seletor de elementos ($).
+  displayBarbershopPhoto(barbershopPhoto);
+  const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[char]));
+  const money = value => Number(value).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  const localDateString = date => `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+  const today = new Date();
+  $("data").min = localDateString(today);
+  $("year").textContent = today.getFullYear();
+
+  function saveServices(){save(STORAGE_KEYS.services,services);}
+  function saveAppointments(){save(STORAGE_KEYS.appointments,appointments);}
+  function saveHours(){save(STORAGE_KEYS.hours,hours);}
+
+  function renderPublicServices() {
+    $("publicServices").innerHTML = services.length ? services.map(s => `
+      <article class="service">
+        <div class="service-icon">${escapeHtml(s.icon || "✂️")}</div>
+        <h3>${escapeHtml(s.name)}</h3>
+        <p>${escapeHtml(s.description || "")}</p>
+        <p class="note">Duração: ${Math.max(5, Number(s.duration) || 30)} minutos</p>
+        <div class="price">${money(s.price)}</div>
+      </article>`).join("") : '<div class="empty">Nenhum serviço cadastrado no momento.</div>';
+
+    const select = $("servico");
+    const previous = select.value;
+    select.innerHTML = `<option value="">${escapeHtml(publicTexts.serviceSelectPlaceholder || "")}</option>` +
+      services.map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)} — ${money(s.price)} — ${Math.max(5, Number(s.duration) || 30)} min</option>`).join("");
+    if (services.some(s => s.id === previous)) select.value = previous;
+  }
+
+  function timeToMinutes(value) {
+    const parts = String(value || "00:00").split(":").map(Number);
+    return (parts[0] || 0) * 60 + (parts[1] || 0);
+  }
+
+  function getAppointmentDuration(appointment) {
+    if (Number(appointment.duration) > 0) return Number(appointment.duration);
+    const oldService = services.find(s => s.id === appointment.serviceId);
+    return Math.max(5, Number(oldService && oldService.duration) || 30);
+  }
+
+  function overlapsExistingAppointment(date, startMinutes, duration, excludeId = null) {
+    const endMinutes = startMinutes + duration;
+    return appointments.some(a => {
+      if (a.id === excludeId || a.date !== date || a.status === "Cancelado") return false;
+      const bookedStart = timeToMinutes(a.time);
+      const bookedEnd = bookedStart + getAppointmentDuration(a);
+      return startMinutes < bookedEnd && endMinutes > bookedStart;
+    });
+  }
+
+  function renderPublicBarbers() {
+    const select = $("barbeiroEscolhido");
+    if (!select) return;
+    const previous = select.value;
+    const activeBarbers = barbers.filter(b => b.status === "Ativo").slice().sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));
+    select.innerHTML = `<option value="">${escapeHtml(publicTexts.barberSelectPlaceholder || "")}</option>` +
+      activeBarbers.map(b => `<option value="${escapeHtml(b.id)}">${escapeHtml(b.name)}${b.specialty ? " — " + escapeHtml(b.specialty) : ""}</option>`).join("");
+    if (activeBarbers.some(b => b.id === previous)) select.value = previous;
+    if (!activeBarbers.length) select.innerHTML = `<option value="">${escapeHtml(publicTexts.noBarberPlaceholder || "")}</option>`;
+  }
+
+  function renderTimes() {
+    const select = $("hora");
+    const previous = select.value;
+    const selectedService = services.find(s => s.id === $("servico").value);
+    const date = $("data").value;
+    const [oh,om] = (hours.open || "08:00").split(":").map(Number);
+    const [ch,cm] = (hours.close || "18:00").split(":").map(Number);
+    const start = oh*60+om, end = ch*60+cm, step = Math.max(15,Number(hours.interval)||60);
+    const duration = Math.max(5, Number(selectedService && selectedService.duration) || 30);
+    const available = [];
+
+    if (!selectedService) {
+      select.innerHTML = `<option value="">${escapeHtml(publicTexts.noServiceSelected || "")}</option>`;
+      return;
+    }
+
+    const now = new Date();
+    const todayString = localDateString(now);
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    for (let m=start; m+duration<=end; m+=step) {
+      // No dia de hoje, horários que já passaram (ou chegaram) deixam de aparecer.
+      if (date === todayString && m <= currentMinutes) continue;
+      const conflict = overlapsExistingAppointment(date, m, duration);
+      if (!conflict) {
+        available.push(`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`);
+      }
+    }
+
+    select.innerHTML = available.length
+      ? `<option value="">${escapeHtml(publicTexts.timeSelectPlaceholder || "")}</option>` + available.map(t=>`<option value="${t}">${t} (duração ${duration} min)</option>`).join("")
+      : `<option value="">${escapeHtml(publicTexts.noTimeAvailable || "")}</option>`;
+    if (available.includes(previous)) select.value = previous;
+  }
+
+  $("servico").addEventListener("change", renderTimes);
+  $("data").addEventListener("change", renderTimes);
+  // Atualiza a lista automaticamente enquanto a página estiver aberta.
+  setInterval(renderTimes, 30 * 1000);
+
+  function renderStats() {
+    $("statPending").textContent = appointments.filter(a=>a.status==="Pendente").length;
+    $("statConfirmed").textContent = appointments.filter(a=>a.status==="Confirmado").length;
+    $("statServices").textContent = services.length;
+  }
+
+  function renderAppointments() {
+    const filter = $("filterStatus").value;
+    const list = appointments.filter(a=>filter==="todos" || a.status===filter)
+      .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+    $("appointmentsList").innerHTML = list.length ? list.map(a => {
+      const service = services.find(s=>s.id===a.serviceId);
+      const statusClass = a.status.toLowerCase();
+      return `<article class="admin-item">
+        <div class="admin-item-top">
+          <strong>${escapeHtml(a.name)}</strong>
+          <span class="status status-${statusClass}">${escapeHtml(a.status)}</span>
+        </div>
+        <p>Telefone: ${escapeHtml(a.phone)}</p>
+        <p>Serviço: ${escapeHtml(service ? service.name : a.serviceName)} ${service ? "— "+money(service.price) : ""}</p>
+        <p>Data: ${escapeHtml(a.date.split("-").reverse().join("/"))} às ${escapeHtml(a.time)}</p>
+        <p>Barbeiro escolhido: ${escapeHtml(a.barberName || "Não informado")}</p>
+        ${a.note ? `<p>Observações: ${escapeHtml(a.note)}</p>` : ""}
+        <div class="admin-actions">
+          <button class="button button-outline button-small" data-action="edit" data-id="${escapeHtml(a.id)}">Editar agendamento</button>
+          ${a.status!=="Confirmado" ? `<button class="button button-small" data-action="confirm" data-id="${escapeHtml(a.id)}">Confirmar</button>` : ""}
+          ${a.status!=="Cancelado" ? `<button class="button button-danger button-small" data-action="cancel" data-id="${escapeHtml(a.id)}">Cancelar</button>` : ""}
+          <button class="button button-outline button-small" data-action="delete" data-id="${escapeHtml(a.id)}">Excluir</button>
+          ${a.phone ? `<a class="button button-outline button-small" data-action="whatsapp-client" data-id="${escapeHtml(a.id)}" target="_blank" rel="noopener" href="https://wa.me/${(String(a.phone).replace(/\D/g, "").length <= 11 ? "55" : "") + String(a.phone).replace(/\D/g, "")}?text=${encodeURIComponent(adminWhatsAppMessageTemplate.replace(/\{(nome|telefone|servico|preco|data|hora|barbeiro|observacoes)\}/g, (_, key) => ({nome:a.name,telefone:a.phone,servico:service ? service.name : a.serviceName,preco:service ? money(service.price) : "a confirmar",data:a.date.split("-").reverse().join("/"),hora:a.time,barbeiro:a.barberName || "Não informado",observacoes:a.note || "Nenhuma"})[key]))}">WhatsApp</a>` : ""}
+        </div>
+      </article>`;
+    }).join("") : '<div class="empty">Nenhum agendamento encontrado.</div>';
+    renderStats();
+  }
+
+  function renderAdminServices() {
+    $("adminServicesList").innerHTML = services.length ? services.map(s=>`
+      <article class="admin-item">
+        <div class="admin-item-top"><strong>${escapeHtml(s.icon||"✂️")} ${escapeHtml(s.name)}</strong><strong>${money(s.price)}</strong></div>
+        <p>${escapeHtml(s.description||"")}</p>
+        <p class="note">Duração: ${Math.max(5, Number(s.duration) || 30)} minutos</p>
+        <div class="admin-actions">
+          <button class="button button-outline button-small" data-service-action="edit" data-id="${escapeHtml(s.id)}">Editar</button>
+          <button class="button button-danger button-small" data-service-action="delete" data-id="${escapeHtml(s.id)}">Excluir</button>
+        </div>
+      </article>`).join("") : '<div class="empty">Nenhum serviço cadastrado.</div>';
+    renderStats();
+  }
+
+
+  function saveBarbers(){save(STORAGE_KEYS.barbers,barbers);}
+
+  function renderBarbers() {
+    const list = $("barbersList");
+    if (!barbers.length) {
+      list.innerHTML = '<div class="empty">Ainda não há barbeiros cadastrados.</div>';
+      return;
+    }
+    list.innerHTML = barbers.slice().sort((a,b)=>a.name.localeCompare(b.name,"pt-BR")).map(b => `
+      <article class="admin-item">
+        <div class="admin-item-top">
+          <strong>${escapeHtml(b.name)}</strong>
+          <span class="barber-status ${b.status==="Ativo" ? "barber-active" : "barber-dismissed"}">${escapeHtml(b.status)}</span>
+        </div>
+        ${b.phone ? `<p>Telefone: ${escapeHtml(b.phone)}</p>` : ""}
+        ${b.email ? `<p>E-mail: <a href="mailto:${escapeHtml(b.email)}">${escapeHtml(b.email)}</a></p>` : ""}
+        ${b.specialty ? `<p>Especialidade: ${escapeHtml(b.specialty)}</p>` : ""}
+        <p>Acesso ao painel: <strong>${b.adminAccess && b.status === "Ativo" ? "Autorizado" : "Não autorizado"}</strong></p>
+        <p>Cadastro: ${escapeHtml(b.createdAt || "—")}</p>
+        <div class="admin-actions">
+          <button class="button button-outline button-small" data-barber-action="edit" data-id="${escapeHtml(b.id)}">Editar cadastro</button>
+          ${b.status==="Ativo"
+            ? `<button class="button button-danger button-small" data-barber-action="dismiss" data-id="${escapeHtml(b.id)}">Demitir</button>`
+            : `<button class="button button-small" data-barber-action="rehire" data-id="${escapeHtml(b.id)}">Recontratar</button>`}
+          <button class="button button-outline button-small" data-barber-action="delete" data-id="${escapeHtml(b.id)}">Excluir cadastro</button>
+        </div>
+      </article>`).join("");
+  }
+
+  function resetBarberForm() {
+    $("barberForm").reset();
+    $("barberId").value = "";
+    $("barberAdminAccess").checked = false;
+    $("barberAccessPassword").required = false;
+    $("barberAccessPassword").value = "";
+    $("barberFormTitle").textContent = "Contratar barbeiro";
+    $("saveBarberButton").textContent = "Cadastrar barbeiro";
+    $("cancelEditBarber").classList.add("hidden");
+  }
+
+  $("barberAdminAccess").addEventListener("change", () => {
+    $("barberAccessPassword").required = $("barberAdminAccess").checked && !$("barberId").value;
+    if (!$("barberAdminAccess").checked) $("barberAccessPassword").value = "";
+  });
+
+  $("cancelEditBarber").addEventListener("click", () => {
+    resetBarberForm();
+    $("barberMessage").textContent = "Edição cancelada.";
+  });
+
+  $("barberForm").addEventListener("submit", event => {
+    event.preventDefault();
+    if (!adminLoggedIn) return;
+    const id = $("barberId").value;
+    const name = $("barberName").value.trim();
+    if (!name) {
+      $("barberMessage").textContent = "Informe o nome do barbeiro.";
+      return;
+    }
+    const existing = id ? barbers.find(b => b.id === id) : null;
+    const email = $("barberEmail").value.trim();
+    const wantsAccess = $("barberAdminAccess").checked;
+    const newAccessPassword = $("barberAccessPassword").value;
+    if (wantsAccess && !email) {
+      $("barberMessage").textContent = "Informe o e-mail do barbeiro para autorizar o acesso.";
+      return;
+    }
+    if (wantsAccess && !(existing && existing.accessPassword) && newAccessPassword.length < 6) {
+      $("barberMessage").textContent = "Defina uma senha com pelo menos 6 caracteres para o barbeiro.";
+      return;
+    }
+    if (wantsAccess && newAccessPassword && newAccessPassword.length < 6) {
+      $("barberMessage").textContent = "A senha deve ter pelo menos 6 caracteres.";
+      return;
+    }
+    if (wantsAccess && barbers.some(b => b.id !== id && b.adminAccess && b.email && b.email.toLowerCase() === email.toLowerCase())) {
+      $("barberMessage").textContent = "Esse e-mail já está associado a outro acesso autorizado.";
+      return;
+    }
+    const barberData = {
+      id: id || makeId(),
+      name,
+      phone: $("barberPhone").value.trim(),
+      email,
+      specialty: $("barberSpecialty").value.trim(),
+      adminAccess: wantsAccess,
+      accessPassword: wantsAccess ? (newAccessPassword || (existing && existing.accessPassword) || "") : "",
+      status: existing ? existing.status : "Ativo",
+      createdAt: existing ? (existing.createdAt || new Date().toLocaleDateString("pt-BR")) : new Date().toLocaleDateString("pt-BR")
+    };
+    if (existing) {
+      barbers = barbers.map(b => b.id === id ? {...existing, ...barberData} : b);
+    } else {
+      barbers.push(barberData);
+    }
+    saveBarbers();
+    renderBarbers();
+    renderPublicBarbers();
+    resetBarberForm();
+    $("barberMessage").textContent = existing ? "Cadastro do barbeiro atualizado." : "Barbeiro cadastrado como ativo.";
+  });
+
+  $("barbersList").addEventListener("click", event => {
+    const button = event.target.closest("button[data-barber-action]");
+    if (!button || !adminLoggedIn) return;
+    const barber = barbers.find(b => b.id === button.dataset.id);
+    if (!barber) return;
+
+    if (button.dataset.barberAction === "edit") {
+      $("barberId").value = barber.id;
+      $("barberName").value = barber.name || "";
+      $("barberPhone").value = barber.phone || "";
+      $("barberEmail").value = barber.email || "";
+      $("barberSpecialty").value = barber.specialty || "";
+      $("barberAdminAccess").checked = !!barber.adminAccess;
+      $("barberAccessPassword").value = "";
+      $("barberAccessPassword").required = false;
+      $("barberAccessPassword").placeholder = barber.accessPassword ? "Preencha somente para trocar a senha" : "Mínimo de 6 caracteres";
+      $("barberFormTitle").textContent = "Editar cadastro do barbeiro";
+      $("saveBarberButton").textContent = "Salvar alterações";
+      $("cancelEditBarber").classList.remove("hidden");
+      $("barberMessage").textContent = "";
+      $("barberForm").scrollIntoView({behavior:"smooth",block:"start"});
+      return;
+    } else if (button.dataset.barberAction === "dismiss") {
+      if (!confirm(`Confirma a demissão de ${barber.name}?`)) return;
+      barber.status = "Demitido";
+      barber.dismissedAt = new Date().toLocaleDateString("pt-BR");
+    } else if (button.dataset.barberAction === "rehire") {
+      if (!confirm(`Confirma a recontratação de ${barber.name}?`)) return;
+      barber.status = "Ativo";
+      delete barber.dismissedAt;
+    } else if (button.dataset.barberAction === "delete") {
+      if (!confirm(`Excluir definitivamente o cadastro de ${barber.name}?`)) return;
+      barbers = barbers.filter(b => b.id !== barber.id);
+    }
+
+    saveBarbers();
+    renderBarbers();
+    renderPublicBarbers();
+  });
+
+  function renderAll() {
+    renderPublicServices();
+    renderPublicBarbers();
+    renderTimes();
+    renderAppointments();
+    renderAdminServices();
+    renderBarbers();
+  }
+
+  $("bookingForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const selected = services.find(s=>s.id===$("servico").value);
+    if (!selected) { $("bookingMessage").textContent="Selecione um serviço válido."; return; }
+    const date = $("data").value, time = $("hora").value;
+    const selectedBarber = barbers.find(b => b.id === $("barbeiroEscolhido").value && b.status === "Ativo");
+    if (!selectedBarber) { $("bookingMessage").textContent="Selecione o barbeiro que deseja para o atendimento."; return; }
+    if (date < localDateString(new Date())) { $("bookingMessage").textContent="Escolha uma data futura ou de hoje."; return; }
+    const duration = Math.max(5, Number(selected.duration) || 30);
+    const startMinutes = timeToMinutes(time);
+    const now = new Date();
+    if (date === localDateString(now) && startMinutes <= now.getHours() * 60 + now.getMinutes()) {
+      $("bookingMessage").textContent="Esse horário já passou. Escolha um horário futuro disponível.";
+      renderTimes(); return;
+    }
+    const [openH,openM] = (hours.open || "08:00").split(":").map(Number);
+    const [closeH,closeM] = (hours.close || "18:00").split(":").map(Number);
+    const openingMinutes = openH*60+openM, closingMinutes = closeH*60+closeM;
+    if (startMinutes < openingMinutes || startMinutes + duration > closingMinutes) {
+      $("bookingMessage").textContent="Esse serviço não cabe inteiro no horário de funcionamento. Escolha outro horário.";
+      renderTimes(); return;
+    }
+    const collision = overlapsExistingAppointment(date, startMinutes, duration);
+    if (collision) { $("bookingMessage").textContent="Esse horário conflita com outro agendamento. Escolha um horário disponível."; renderTimes(); return; }
+    const appointment = {
+      id:makeId(), name:$("nome").value.trim(), phone:$("telefone").value.trim(),
+      serviceId:selected.id, serviceName:selected.name, duration, date, time,
+      barberId:selectedBarber.id, barberName:selectedBarber.name,
+      note:$("observacao").value.trim(), status:"Pendente", createdAt:new Date().toISOString()
+    };
+    appointments.push(appointment);
+    saveAppointments();
+    window.lastBookingForWhatsApp = {
+      appointment: {...appointment},
+      serviceName: selected.name,
+      servicePrice: selected.price
+    };
+    $("bookingMessage").textContent = "Sua solicitação foi registrada neste navegador. Use a opção abaixo para pedir ao barbeiro que confirme o horário.";
+    $("bookingSuccessBox").classList.remove("hidden");
+    $("bookingSuccessBox").scrollIntoView({behavior:"smooth",block:"nearest"});
+    $("bookingForm").reset();
+    $("data").min=localDateString(new Date());
+    renderTimes();
+    renderAppointments();
+  });
+
+  $("requestWhatsAppConfirmation").addEventListener("click", () => {
+    const data = window.lastBookingForWhatsApp;
+    if (!data) {
+      $("bookingMessage").textContent = "Faça o agendamento primeiro para gerar a mensagem de confirmação.";
+      return;
+    }
+    if (!businessSettings.whatsapp) {
+      $("bookingMessage").textContent = "O WhatsApp da barbearia ainda não foi configurado. O administrador precisa cadastrá-lo no painel administrativo.";
+      return;
+    }
+    const a = data.appointment;
+    const replacements = {
+      nome: a.name,
+      telefone: a.phone,
+      servico: data.serviceName,
+      preco: money(data.servicePrice),
+      data: a.date.split("-").reverse().join("/"),
+      hora: a.time,
+      barbeiro: a.barberName || "Não informado",
+      observacoes: a.note || "Nenhuma"
+    };
+    const message = whatsappMessageTemplate.replace(/\{(nome|telefone|servico|preco|data|hora|barbeiro|observacoes)\}/g, (_, key) => replacements[key]);
+    window.open("https://wa.me/" + businessSettings.whatsapp + "?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
+  });
+
+  function openClientPanel() {
+    $("adminSection").classList.add("hidden");
+    $("publicSite").classList.remove("hidden");
+    $("publicSite").scrollIntoView({behavior:"smooth"});
+  }
+
+  function openAdminPanel() {
+    $("publicSite").classList.add("hidden");
+    $("adminSection").classList.remove("hidden");
+    $("adminSection").scrollIntoView({behavior:"smooth"});
+    if (adminLoggedIn) showDashboard();
+    else $("adminPassword").focus();
+  }
+
+  $("adminOpenBtn").addEventListener("click", openAdminPanel);
+  $("clientOpenBtn").addEventListener("click", openClientPanel);
+  $("backToClientBtn").addEventListener("click", openClientPanel);
+
+  $("loginForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const email = $("loginEmail").value.trim().toLowerCase();
+    const password = $("adminPassword").value;
+    const barberUser = email ? barbers.find(b => b.status === "Ativo" && b.adminAccess && b.email && b.email.toLowerCase() === email && b.accessPassword === password) : null;
+    if (barberUser || (!email && password === DEMO_ADMIN_PASSWORD)) {
+      adminLoggedIn=true;
+      $("loginMessage").textContent="";
+      $("adminPassword").value="";
+      $("loginEmail").value="";
+      showDashboard();
+    } else {
+      $("loginMessage").textContent="E-mail ou senha incorretos, ou acesso não autorizado.";
+    }
+  });
+
+  function showDashboard() {
+    $("loginBox").classList.toggle("hidden",adminLoggedIn);
+    $("dashboard").classList.toggle("hidden",!adminLoggedIn);
+    if (adminLoggedIn) renderAll();
+  }
+
+  $("logoutBtn").addEventListener("click", () => {
+    adminLoggedIn=false;
+    showDashboard();
+  });
+
+  document.querySelectorAll(".tab-btn").forEach(button => button.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.toggle("active",b===button));
+    ["appointments","services","hours","barbers","settings","whatsapp-message"].forEach(tab=>$("tab-"+tab).classList.toggle("hidden",tab!==button.dataset.tab));
+  }));
+
+  $("filterStatus").addEventListener("change",renderAppointments);
+
+  function closeAppointmentEditor() {
+    $("editAppointmentForm").reset();
+    $("editAppointmentId").value = "";
+    $("editAppointmentMessage").textContent = "";
+    $("editAppointmentBox").classList.add("hidden");
+  }
+
+  function openAppointmentEditor(appointment) {
+    const serviceSelect = $("editAppointmentService");
+    serviceSelect.innerHTML = services.map(s =>
+      `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)} — ${money(s.price)} (${Math.max(5, Number(s.duration)||30)} min)</option>`
+    ).join("");
+    $("editAppointmentId").value = appointment.id;
+    $("editAppointmentName").value = appointment.name || "";
+    $("editAppointmentPhone").value = appointment.phone || "";
+    $("editAppointmentService").value = services.some(s=>s.id===appointment.serviceId)
+      ? appointment.serviceId : (services[0] ? services[0].id : "");
+    $("editAppointmentDate").value = appointment.date || "";
+    $("editAppointmentTime").value = appointment.time || "";
+    $("editAppointmentStatus").value = appointment.status || "Pendente";
+    $("editAppointmentNote").value = appointment.note || "";
+    $("editAppointmentMessage").textContent = "";
+    $("editAppointmentBox").classList.remove("hidden");
+    $("editAppointmentBox").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+
+  $("cancelEditAppointment").addEventListener("click", closeAppointmentEditor);
+
+  $("editAppointmentForm").addEventListener("submit", event => {
+    event.preventDefault();
+    if (!adminLoggedIn) return;
+    const id = $("editAppointmentId").value;
+    const appointment = appointments.find(a=>a.id===id);
+    if (!appointment) {
+      $("editAppointmentMessage").textContent = "Esse agendamento não foi encontrado.";
+      return;
+    }
+    const selectedService = services.find(s=>s.id===$("editAppointmentService").value);
+    const date = $("editAppointmentDate").value;
+    const time = $("editAppointmentTime").value;
+    if (!selectedService || !date || !time) {
+      $("editAppointmentMessage").textContent = "Preencha o serviço, a data e o horário.";
+      return;
+    }
+    if (date < localDateString(new Date())) {
+      $("editAppointmentMessage").textContent = "Escolha uma data de hoje ou futura.";
+      return;
+    }
+    const duration = Math.max(5, Number(selectedService.duration)||30);
+    const startMinutes = timeToMinutes(time);
+    const now = new Date();
+    if (date === localDateString(now) && startMinutes <= now.getHours() * 60 + now.getMinutes()) {
+      $("bookingMessage").textContent="Esse horário já passou. Escolha um horário futuro disponível.";
+      renderTimes(); return;
+    }
+    const [openH,openM] = (hours.open || "08:00").split(":").map(Number);
+    const [closeH,closeM] = (hours.close || "18:00").split(":").map(Number);
+    const openingMinutes = openH*60+openM, closingMinutes = closeH*60+closeM;
+    const newStatus = $("editAppointmentStatus").value;
+    if (newStatus !== "Cancelado" &&
+        (startMinutes < openingMinutes || startMinutes + duration > closingMinutes)) {
+      $("editAppointmentMessage").textContent = "Esse serviço precisa caber dentro do horário de funcionamento.";
+      return;
+    }
+    if (newStatus !== "Cancelado" &&
+        overlapsExistingAppointment(date, startMinutes, duration, id)) {
+      $("editAppointmentMessage").textContent = "Esse horário conflita com outro agendamento ativo. Escolha outro horário.";
+      return;
+    }
+    appointment.name = $("editAppointmentName").value.trim();
+    appointment.phone = $("editAppointmentPhone").value.trim();
+    appointment.serviceId = selectedService.id;
+    appointment.serviceName = selectedService.name;
+    appointment.duration = duration;
+    appointment.date = date;
+    appointment.time = time;
+    appointment.status = newStatus;
+    appointment.note = $("editAppointmentNote").value.trim();
+    appointment.updatedAt = new Date().toISOString();
+    saveAppointments();
+    closeAppointmentEditor();
+    renderTimes();
+    renderAppointments();
+  });
+
+  $("appointmentsList").addEventListener("click",event=>{
+    const button=event.target.closest("button[data-action]");
+    if (!button || !adminLoggedIn) return;
+    const item=appointments.find(a=>a.id===button.dataset.id);
+    if (!item) return;
+    if (button.dataset.action==="edit") { openAppointmentEditor(item); return; }
+    if (button.dataset.action==="confirm") item.status="Confirmado";
+    if (button.dataset.action==="cancel") item.status="Cancelado";
+    if (button.dataset.action==="delete") {
+      if (!confirm("Excluir este agendamento permanentemente deste navegador?")) return;
+      appointments=appointments.filter(a=>a.id!==item.id);
+    }
+    saveAppointments();renderAppointments();
+  });
+
+  function resetServiceForm() {
+    $("serviceForm").reset();$("serviceId").value="";
+    $("serviceFormTitle").textContent="Adicionar serviço";
+    $("cancelEditService").classList.add("hidden");
+  }
+  $("serviceForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    if (!adminLoggedIn) return;
+    const id=$("serviceId").value;
+    const service={
+      id:id||makeId(),name:$("serviceName").value.trim(),
+      price:Number($("servicePrice").value),
+      duration:Number($("serviceDuration").value),
+      icon:$("serviceIcon").value.trim()||"✂️",
+      description:$("serviceDescription").value.trim()
+    };
+    if (!service.name || !Number.isFinite(service.price) || service.price<0 ||
+        !Number.isFinite(service.duration) || service.duration<5 || service.duration>480) {
+      $("serviceMessage").textContent="Confira o nome, o preço e a duração (de 5 a 480 minutos).";return;
+    }
+    if (id) services=services.map(s=>s.id===id?service:s);
+    else services.push(service);
+    saveServices();resetServiceForm();renderAll();
+    $("serviceMessage").textContent="Serviço salvo.";
+  });
+
+  $("cancelEditService").addEventListener("click",resetServiceForm);
+  $("adminServicesList").addEventListener("click",event=>{
+    const button=event.target.closest("button[data-service-action]");
+    if (!button || !adminLoggedIn) return;
+    const service=services.find(s=>s.id===button.dataset.id);
+    if (!service) return;
+    if (button.dataset.serviceAction==="edit") {
+      $("serviceId").value=service.id;$("serviceName").value=service.name;
+      $("servicePrice").value=service.price;
+      $("serviceDuration").value=Math.max(5, Number(service.duration) || 30);
+      $("serviceIcon").value=service.icon||"";
+      $("serviceDescription").value=service.description||"";
+      $("serviceFormTitle").textContent="Editar serviço";
+      $("cancelEditService").classList.remove("hidden");
+      $("serviceForm").scrollIntoView({behavior:"smooth",block:"start"});
+    } else if (button.dataset.serviceAction==="delete") {
+      if (!confirm("Excluir este serviço?")) return;
+      services=services.filter(s=>s.id!==service.id);
+      saveServices();renderAll();
+    }
+  });
+
+  $("hoursForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    if (!adminLoggedIn) return;
+    if ($("openingTime").value >= $("closingTime").value) {
+      $("hoursMessage").textContent="O fechamento deve ser depois da abertura.";return;
+    }
+    hours={open:$("openingTime").value,close:$("closingTime").value,interval:Number($("slotMinutes").value)};
+    saveHours();renderTimes();
+    $("hoursMessage").textContent="Horários salvos neste navegador.";
+  });
+
+  $("openingTime").value=hours.open;
+  $("closingTime").value=hours.close;
+  $("slotMinutes").value=String(hours.interval);
+
+  $("whatsappMessageTemplate").value = whatsappMessageTemplate;
+  $("whatsappMessageForm").addEventListener("submit", event => {
+    event.preventDefault();
+    if (!adminLoggedIn) return;
+    whatsappMessageTemplate = $("whatsappMessageTemplate").value.trim();
+    save(STORAGE_KEYS.whatsappMessage, whatsappMessageTemplate);
+    $("whatsappMessageSettingsMessage").textContent = "Mensagem do WhatsApp salva neste navegador.";
+  });
+  $("resetWhatsAppMessage").addEventListener("click", () => {
+    if (!adminLoggedIn) return;
+    whatsappMessageTemplate = DEFAULT_WHATSAPP_MESSAGE;
+    $("whatsappMessageTemplate").value = DEFAULT_WHATSAPP_MESSAGE;
+    save(STORAGE_KEYS.whatsappMessage, whatsappMessageTemplate);
+    $("whatsappMessageSettingsMessage").textContent = "Mensagem padrão restaurada e salva.";
+  });
+
+  $("adminWhatsAppMessageTemplate").value = adminWhatsAppMessageTemplate;
+  $("adminWhatsAppMessageForm").addEventListener("submit", event => {
+    event.preventDefault();
+    if (!adminLoggedIn) return;
+    adminWhatsAppMessageTemplate = $("adminWhatsAppMessageTemplate").value.trim();
+    save(STORAGE_KEYS.adminWhatsAppMessage, adminWhatsAppMessageTemplate);
+    $("adminWhatsAppMessageSettingsMessage").textContent = "Mensagem do administrador salva neste navegador.";
+    renderAppointments();
+  });
+  $("resetAdminWhatsAppMessage").addEventListener("click", () => {
+    if (!adminLoggedIn) return;
+    adminWhatsAppMessageTemplate = DEFAULT_ADMIN_WHATSAPP_MESSAGE;
+    $("adminWhatsAppMessageTemplate").value = DEFAULT_ADMIN_WHATSAPP_MESSAGE;
+    save(STORAGE_KEYS.adminWhatsAppMessage, adminWhatsAppMessageTemplate);
+    $("adminWhatsAppMessageSettingsMessage").textContent = "Mensagem padrão do administrador restaurada e salva.";
+    renderAppointments();
+  });
+
+  const publicTextFieldMap = {textBrandName:"brandName",textBrandSubtitle:"brandSubtitle",textNavClient:"navClient",textNavBooking:"navBooking",textNavAdmin:"navAdmin",textHeroEyebrow:"heroEyebrow",textHeroTitleMain:"heroTitleMain",textHeroTitleAccent:"heroTitleAccent",textHeroDescription:"heroDescription",textHeroButton:"heroButton",textNamePlaceholder:"namePlaceholder",textPhonePlaceholder:"phonePlaceholder",textServiceSelectPlaceholder:"serviceSelectPlaceholder",textTimeSelectPlaceholder:"timeSelectPlaceholder",textNoServiceSelected:"noServiceSelected",textNoTimeAvailable:"noTimeAvailable",textBarberSelectPlaceholder:"barberSelectPlaceholder",textNoBarberPlaceholder:"noBarberPlaceholder",textBookingSubmit:"bookingSubmit",textBookingNote:"bookingNote",textSuccessTitle:"successTitle",textSuccessDescription:"successDescription",textWhatsAppButton:"whatsAppButton",textSuccessNote:"successNote",textContactTitle:"contactTitle",textContactDescription:"contactDescription",textContactButton:"contactButton",textServicesTitle:"servicesTitle",textServicesDescription:"servicesDescription",textServicesNote:"servicesNote",textBookingTitle:"bookingTitle",textBookingDescription:"bookingDescription",textNameLabel:"nameLabel",textPhoneLabel:"phoneLabel",textServiceLabel:"serviceLabel",textDateLabel:"dateLabel",textTimeLabel:"timeLabel",textBarberLabel:"barberLabel",textObservationLabel:"observationLabel",textObservationPlaceholder:"observationPlaceholder",textFooterName:"footerName",textFooterRights:"footerRights",textDocumentTitle:"documentTitle",textMetaDescription:"metaDescription"};
+  const publicTextElementMap = {brandName:"publicBrandName",brandSubtitle:"publicBrandSubtitle",navClient:"publicNavClient",navBooking:"publicNavBooking",navAdmin:"publicNavAdmin",heroEyebrow:"publicHeroEyebrow",heroTitleMain:"publicHeroTitleMain",heroTitleAccent:"publicHeroTitleAccent",heroDescription:"publicHeroDescription",heroButton:"publicHeroButton",bookingSubmit:"publicBookingSubmit",bookingNote:"publicBookingNote",successTitle:"publicSuccessTitle",successDescription:"publicSuccessDescription",whatsAppButton:"publicWhatsAppButton",successNote:"publicSuccessNote",contactTitle:"publicContactTitle",contactDescription:"publicContactDescription",contactButton:"publicContactButton",servicesTitle:"publicServicesTitle",servicesDescription:"publicServicesDescription",servicesNote:"publicServicesNote",bookingTitle:"publicBookingTitle",bookingDescription:"publicBookingDescription",nameLabel:"publicNameLabel",phoneLabel:"publicPhoneLabel",serviceLabel:"publicServiceLabel",dateLabel:"publicDateLabel",timeLabel:"publicTimeLabel",barberLabel:"publicBarberLabel",observationLabel:"publicObservationLabel",footerName:"publicFooterName",footerRights:"publicFooterRights"};
+  function applyPublicTexts(){
+    Object.entries(publicTextElementMap).forEach(([key,id])=>{const el=$(id);if(el)el.textContent=publicTexts[key]??"";});
+    $("observacao").placeholder=publicTexts.observationPlaceholder??"";
+    $("nome").placeholder=publicTexts.namePlaceholder??"";
+    $("telefone").placeholder=publicTexts.phonePlaceholder??"";
+    $("publicDocumentTitle").textContent=publicTexts.documentTitle??"";
+    $("publicMetaDescription").setAttribute("content",publicTexts.metaDescription??"");
+  }
+  function fillPublicTextForm(){Object.entries(publicTextFieldMap).forEach(([id,key])=>{$(id).value=publicTexts[key]??"";});}
+  fillPublicTextForm();
+  applyPublicTexts();
+  $("publicTextsForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    Object.entries(publicTextFieldMap).forEach(([id,key])=>{publicTexts[key]=$(id).value.trim();});
+    save(STORAGE_KEYS.publicTexts,publicTexts);
+    applyPublicTexts();
+    $("publicTextsMessage").textContent="Textos da tela do cliente salvos neste navegador.";
+  });
+  $("resetPublicTexts").addEventListener("click",()=>{
+    publicTexts={...defaultPublicTexts};
+    fillPublicTextForm();applyPublicTexts();save(STORAGE_KEYS.publicTexts,publicTexts);
+    $("publicTextsMessage").textContent="Textos padrão restaurados e salvos.";
+  });
+
+  $("barbershopPhotoInput").addEventListener("change", event => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      $("barbershopPhotoMessage").textContent = "Selecione um arquivo de imagem válido.";
+      event.target.value = ""; return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const maxSide = 600;
+        const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        pendingBarbershopPhoto = canvas.toDataURL("image/jpeg", 0.82);
+        $("barbershopPhotoPreview").src = pendingBarbershopPhoto;
+        $("barbershopPhotoPreview").style.display = "block";
+        $("barbershopPhotoPreviewEmpty").style.display = "none";
+        $("barbershopPhotoMessage").textContent = "Prévia pronta. Clique em “Salvar foto do cabeçalho” para aplicar.";
+      };
+      img.onerror = () => { $("barbershopPhotoMessage").textContent = "Não foi possível abrir essa imagem. Tente outra."; };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  $("saveBarbershopPhoto").addEventListener("click", () => {
+    if (!pendingBarbershopPhoto) {
+      $("barbershopPhotoMessage").textContent = "Selecione uma foto primeiro."; return;
+    }
+    barbershopPhoto = pendingBarbershopPhoto;
+    save(STORAGE_KEYS.barbershopPhoto, barbershopPhoto);
+    displayBarbershopPhoto(barbershopPhoto);
+    $("barbershopPhotoMessage").textContent = "Foto do cabeçalho salva neste navegador.";
+  });
+  $("removeBarbershopPhoto").addEventListener("click", () => {
+    barbershopPhoto = ""; pendingBarbershopPhoto = "";
+    localStorage.removeItem(STORAGE_KEYS.barbershopPhoto);
+    $("barbershopPhotoInput").value = "";
+    displayBarbershopPhoto("");
+    $("barbershopPhotoMessage").textContent = "Foto removida do cabeçalho.";
+  });
+
+  $("businessWhatsApp").value = businessSettings.whatsapp || "";
+  $("businessAddress").value = businessSettings.address || "";
+  $("publicBusinessAddress").textContent = businessSettings.address ? "Endereço: " + businessSettings.address : "";
+
+  $("businessSettingsForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const whatsapp = $("businessWhatsApp").value.replace(/\\D/g, "");
+    const address = $("businessAddress").value.trim();
+    if (whatsapp.length < 10 || whatsapp.length > 15) {
+      $("businessSettingsMessage").textContent = "Digite um WhatsApp válido com código do país e DDD, usando somente números.";
+      return;
+    }
+    if (!address) {
+      $("businessSettingsMessage").textContent = "Informe o endereço da barbearia.";
+      return;
+    }
+    businessSettings = {whatsapp, address};
+    save(STORAGE_KEYS.businessSettings, businessSettings);
+    $("businessSettingsMessage").textContent = "Dados da barbearia salvos neste navegador.";
+    $("publicBusinessAddress").textContent = "Endereço: " + address;
+  });
+
+  $("whatsappLink").addEventListener("click",event=>{
+    event.preventDefault();
+    $("agendamento").scrollIntoView({behavior:"smooth"});
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
+
